@@ -1,0 +1,17 @@
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+        jcenter() // Warning: this repository is going to shut down soon
+    }
+}
+rootProject.name = "MDFHiltCleanCode"
+include ':app'
+include ':splash'
+include ':core'
+include ':deeplink'
+include ':feature_movies'
+include ':domain_movies'
+include ':data_movies'
+include ':shared'
