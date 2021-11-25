@@ -14,6 +14,7 @@
 
     <application>
         <activity
+            android:theme="@style/AppTheme"
             android:name=".MoviesListActivity"
             android:screenOrientation="fullSensor" />
     </application>

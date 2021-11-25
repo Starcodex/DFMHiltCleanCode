@@ -25,7 +25,7 @@ abstract class BaseFragment : Fragment() {
 
     internal fun notify(@StringRes message: Int) = Snackbar.make(viewContainer, message, Snackbar.LENGTH_SHORT).show()
 
-    internal fun notifyWithAction(
+    protected fun notifyWithAction(
         @StringRes message: Int,
         @StringRes actionText: Int,
         action: () -> Any

@@ -20,7 +20,6 @@ abstract class BaseInjectableFragment<VM: ViewModel, B: ViewDataBinding> : BaseB
 
 
     override fun onAttach(context: Context) {
-        //AndroidSupportInjection.inject(this)
         injection()
         super.onAttach(context)
         generateViewModel()

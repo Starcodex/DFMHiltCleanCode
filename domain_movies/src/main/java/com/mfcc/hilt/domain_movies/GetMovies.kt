@@ -6,6 +6,8 @@ import com.mfcc.hilt.domain_movies.repository.MoviesRepository
 import javax.inject.Inject
 
 class GetMovies @Inject constructor (val moviesRepository: MoviesRepository)
-    : UseCase<List<Movie>, UseCase.None>() {
-    override suspend fun run(params: None) = moviesRepository.movies()
+    : UseCase<List<Movie>, GetMovies.Params>() {
+    override suspend fun run(params: Params) = moviesRepository.movies(params.genre)
+
+    data class Params(val genre: Int)
 }

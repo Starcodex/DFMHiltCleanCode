@@ -11,7 +11,10 @@ abstract class BaseBindingFragmentActivity<B : ViewDataBinding> : BaseBindingAct
     override val layoutResource: Int
         get() = R.layout.activity_container
 
+    abstract fun injection()
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        injection()
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, layoutResource)
         binding.lifecycleOwner = this

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="failure_network_connection">failure_network_connection</string>
+    <string name="failure_server_error">failure_server_error</string>
+    <string name="failure_movies_list_unavailable">failure_movies_list_unavailable</string>
+    <string name="action_refresh">action_refresh</string>
+
+    <!-- Animations -->
+    <string name="movie_transition_poster">moviePosterTransition</string>
+</resources>

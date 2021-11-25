@@ -7,9 +7,6 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.mfcc.hilt.core.R
 import com.mfcc.hilt.core.base.BaseActivity
-import com.mfcc.hilt.core.base.BaseBindingFragment
-import com.mfcc.hilt.core.base.BaseBindingFragmentActivity
-
 
 inline fun FragmentManager.inTransaction(func: FragmentTransaction.() -> FragmentTransaction) =
         beginTransaction().func().commit()
@@ -24,4 +21,4 @@ val Fragment.appContext: Context get() = activity?.applicationContext!!
 
 val Fragment.progress :
 View get() = (activity as BaseActivity)
-.findViewById(R.id.progress )
+.findViewById(R.id.progress)

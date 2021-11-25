@@ -44,6 +44,7 @@ dependencies {
     implementation project(':core')
     implementation project(':splash')
     implementation project(':deeplink')
+    implementation project(':shared')
 
     // Hilt
     //implementation 'com.google.dagger:hilt-android:2.40.1'
@@ -53,6 +54,8 @@ dependencies {
     //kapt 'com.google.dagger:dagger-compiler:2.40.1'
     //kapt 'com.google.dagger:dagger-android-processor:2.35.1'
 
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.0'
     // Dagger 2
     implementation 'com.google.dagger:dagger:2.40.1'
     implementation 'com.google.dagger:dagger-android:2.35.1'

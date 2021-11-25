@@ -11,9 +11,7 @@ import dagger.Module
 import dagger.multibindings.IntoMap
 
 
-@Module(includes = arrayOf(
-    AppModule::class
-))
+@Module
 abstract class MoviesModule {
 
     @Binds
