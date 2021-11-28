@@ -3,6 +3,10 @@ package com.mfcc.hilt.main
 import com.mfcc.hilt.core.di.NetworkHandler
 import com.mfcc.hilt.core.di.module.ConstantsModule
 import com.mfcc.hilt.core.di.module.CoreModule
+import com.mfcc.hilt.persistence.AppDatabase
+import com.mfcc.hilt.persistence.movies.CategoryDao
+import com.mfcc.hilt.persistence.movies.CategoryMovieDao
+import com.mfcc.hilt.persistence.movies.MovieDao
 import dagger.BindsInstance
 import dagger.Component
 import dagger.Provides
@@ -32,5 +36,7 @@ interface AppComponent : AndroidInjector<MFAPP> {
     fun retrofit() : Retrofit
 
     fun logginInterceptor() : HttpLoggingInterceptor
+
+    fun appDatabase() : AppDatabase
 
 }

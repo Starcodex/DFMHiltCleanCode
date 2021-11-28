@@ -1,47 +1,63 @@
 package com.mfcc.hilt.data_movies
 
-import retrofit2.Call
+
+import androidx.lifecycle.map
+import com.mfcc.hilt.core.base.BaseRepository
 import com.mfcc.hilt.core.common.Either
-import com.mfcc.hilt.core.common.Either.*
 import com.mfcc.hilt.core.common.Failure
-import com.mfcc.hilt.core.common.Failure.*
-import com.mfcc.hilt.core.di.NetworkHandler
-import com.mfcc.hilt.data_movies.remote.MoviesApiClient
-import com.mfcc.hilt.data_movies.remote.MoviesResponse
+import com.mfcc.hilt.data_movies.local.MoviesLocalDataSource
+import com.mfcc.hilt.data_movies.wrapper.mapToDomain
+import com.mfcc.hilt.data_movies.remote.MoviesRemoteDataSource
+import com.mfcc.hilt.data_movies.wrapper.MovieRemoteToDBWrapper
 import com.mfcc.hilt.domain_movies.model.Movie
 import com.mfcc.hilt.domain_movies.repository.MoviesRepository
+import com.mfcc.hilt.persistence.movies.CategoryEntity
+import com.mfcc.hilt.persistence.movies.CategoryMovieEntity
 import javax.inject.Inject
 
+
 class MoviesRepositoryImpl @Inject constructor(
-    private val networkHandler: NetworkHandler,
-    private val service : MoviesApiClient
-): MoviesRepository {
+    private val moviesRemoteDataSource: MoviesRemoteDataSource,
+    private val moviesLocalDataSource: MoviesLocalDataSource
+): BaseRepository(), MoviesRepository {
 
-    override fun movies(genre : Int): Either<Failure, List<Movie>> {
-        return when (networkHandler.isNetworkAvailable()) {
-            true -> request(
-                service.movies(genre, "8c0457b0a34b8e815c0e1ef2ff2aa7d1"),
-                { it.results.map{ it.toMovie() } },
-                MoviesResponse(emptyList())
-            )
-            false -> Left(NetworkConnection)
-        }
-    }
 
-    private fun <T, R> request(
-        call: Call<T>,
-        transform: (T) -> R,
-        default: T
-    ): Either<Failure, R> {
-        return try {
-            val response = call.execute()
-            when (response.isSuccessful) {
-                true -> Right(transform((response.body() ?: default)))
-                false -> Left(ServerError)
+    override suspend fun movies(category: String): Either<Failure, List<Movie>> =
+        performGet(
+            databaseQuery = { moviesLocalDataSource.getAllMoviesByCategory(category) },
+            networkCall = { moviesRemoteDataSource.getMovies(category) },
+            wrapperFunction = { it.map { it.mapToDomain() } },
+            saveCallResult = {
+                moviesLocalDataSource.insertCategory(CategoryEntity(category))
+                moviesLocalDataSource.insertAllMovies(MovieRemoteToDBWrapper().wrapElement(it.results))
             }
-        } catch (exception: Throwable) {
-            Left(ServerError)
+        )
+
+    override suspend fun getAllMovies(category: String): Either<Failure, List<Movie>> =
+        performGetRemoteDBFunction(
+            databaseQuery = { moviesLocalDataSource.getAllMoviesByCategory(category) },
+            networkCall = { moviesRemoteDataSource.getAllMovies(category) },
+            wrapperFunction = { it.map { it.mapToDomain() } },
+            saveCallResult = {
+                moviesLocalDataSource.insertCategory(CategoryEntity(category))
+                moviesLocalDataSource.insertAllMovies(MovieRemoteToDBWrapper().wrapElement(it.results))
+                it.results.map {
+                    moviesLocalDataSource.insertCategoryMovie(CategoryMovieEntity(category,it.id ?: 0))
+                }
+            }
+        )
+
+
+    override fun getMovies(category: String) = performGetOperation(
+        databaseQuery = { moviesLocalDataSource.getMoviesByCategory(category).map { it.map { it.mapToDomain() } } },
+        networkCall = { moviesRemoteDataSource.getMovies(category) },
+        saveCallResult = {
+            moviesLocalDataSource.insertCategory(CategoryEntity(category))
+            moviesLocalDataSource.insertAllMovies(MovieRemoteToDBWrapper().wrapElement(it.results))
+            it.results.map {
+                moviesLocalDataSource.insertCategoryMovie(CategoryMovieEntity(category,it.id ?: 0))
+            }
         }
-    }
+    )
 
 }

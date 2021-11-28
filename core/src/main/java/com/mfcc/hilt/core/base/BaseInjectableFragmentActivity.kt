@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import java.lang.reflect.ParameterizedType
 
-abstract class BaseInjectableFragmentActivity<VM: ViewModel, B: ViewDataBinding> : BaseBindingFragmentActivity<B>() {
+abstract class BaseInjectableFragmentActivity<VM: ViewModel> : BaseBindingFragmentActivity() {
 
 
     private lateinit var viewModel: VM

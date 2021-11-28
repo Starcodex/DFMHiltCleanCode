@@ -2,11 +2,12 @@ package com.mfcc.hilt.feature_movies.list
 
 
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.viewModelScope
+import android.view.View
+import android.widget.Toast
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.lifecycle.*
 import com.mfcc.hilt.core.base.BaseViewModel
+import com.mfcc.hilt.core.common.Resource
 import com.mfcc.hilt.core.common.UseCase.*
 import com.mfcc.hilt.domain_movies.GetMovies
 import com.mfcc.hilt.domain_movies.GetMovies.*
@@ -25,10 +26,32 @@ class MoviesViewModel @Inject constructor(
     val movies: LiveData<List<MovieView>> = _movies
 
     fun loadMovies() =
-        getMovies(Params(35), viewModelScope) { it.fold(::handleFailure, ::handleMovieList) }
+        getMovies(Params("upcoming"), viewModelScope) { it.fold(::handleFailure, ::handleMovieList) }
 
     private fun handleMovieList(movies: List<Movie>) {
         _movies.value = movies.map { MovieView(it.id, it.poster) }
     }
+
+
+
+    fun loadMoviesLD() = handleLiveData(
+        getMovies.exec(Params("upcoming")),
+        { handleMovieList(it.data!!) },
+        {  handleError(it) }
+    )
+
+
+    /*
+    val liveData = MediatorLiveData<List<Movie>>()
+
+    fun loadMovies() =
+        liveData.addSource(getMovies.exec(Params("upcoming")), Observer {
+            when (it.status) {
+                Resource.Status.SUCCESS -> {  }
+                Resource.Status.ERROR -> { }
+                Resource.Status.LOADING -> {}
+            }
+    })
+    */
 
 }

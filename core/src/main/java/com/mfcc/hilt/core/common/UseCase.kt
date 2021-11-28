@@ -1,10 +1,13 @@
 package com.mfcc.hilt.core.common
 
+import androidx.lifecycle.LiveData
 import kotlinx.coroutines.*
 
-abstract class UseCase<out Type, in Params> where Type : Any {
+abstract class UseCase<Type, in Params> where Type : Any {
 
     abstract suspend fun run(params: Params): Either<Failure, Type>
+
+    abstract fun exec(params: Params): LiveData<Resource<Type>>
 
     operator fun invoke(
         params: Params,
@@ -19,5 +22,8 @@ abstract class UseCase<out Type, in Params> where Type : Any {
         }
     }
 
+
+
     class None
+
 }

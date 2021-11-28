@@ -36,6 +36,15 @@ dependencies {
 
     implementation project(":core")
     implementation project(":domain_movies")
+    implementation project(":persistence")
+
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.4.0"
+
+    //Room
+    implementation "androidx.room:room-runtime:2.3.0"
+    implementation "androidx.room:room-ktx:2.3.0"
+    kapt "androidx.room:room-compiler:2.3.0"
 
     // Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'//retrofitDependencies.retrofit

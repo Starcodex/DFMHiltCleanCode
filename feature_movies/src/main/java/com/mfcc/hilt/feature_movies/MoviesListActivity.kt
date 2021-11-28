@@ -11,7 +11,7 @@ import com.mfcc.hilt.main.InjectUtils
 
 
 @DeepLink("mfcc://movies")
-class MoviesListActivity : BaseBindingFragmentActivity<ActivityContainerBinding>() {
+class MoviesListActivity : BaseBindingFragmentActivity() {
 
     override fun fragment() = MoviesFragment()
 

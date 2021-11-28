@@ -1,10 +1,13 @@
 package com.mfcc.hilt.feature_movies.di
 
 import com.mfcc.hilt.core.di.module.ConstantsModule
-import com.mfcc.hilt.data_movies.di.DataMoviesModule
 import com.mfcc.hilt.feature_movies.MoviesListActivity
 import com.mfcc.hilt.feature_movies.list.MoviesFragment
 import com.mfcc.hilt.main.AppComponent
+import com.mfcc.hilt.main.AppModule
+import com.mfcc.hilt.persistence.movies.CategoryDao
+import com.mfcc.hilt.persistence.movies.CategoryMovieDao
+import com.mfcc.hilt.persistence.movies.MovieDao
 import dagger.Component
 
 
@@ -14,8 +17,7 @@ import dagger.Component
         AppComponent::class
     ),
     modules = arrayOf(
-        MoviesModule::class,
-        DataMoviesModule::class
+        MoviesModule::class
     )
 )
 interface MoviesComponent {
@@ -29,4 +31,8 @@ interface MoviesComponent {
 
     fun inject(moviesActivity : MoviesListActivity)
     fun inject(moviesFragment: MoviesFragment)
+
+    fun movieDao() : MovieDao
+    fun categoryDao() : CategoryDao
+    fun categoryMovieDao() : CategoryMovieDao
 }

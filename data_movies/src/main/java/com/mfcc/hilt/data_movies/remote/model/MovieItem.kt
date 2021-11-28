@@ -1,4 +1,4 @@
-package com.mfcc.hilt.data_movies
+package com.mfcc.hilt.data_movies.remote.model
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
@@ -18,7 +18,15 @@ data class MovieItem(
 
     @SerializedName("poster_path")
     @Expose
-    var poster_path: String? = null
+    var poster_path: String? = null,
+
+    @SerializedName("original_language")
+    @Expose
+    var original_language: String? = null,
+
+    @SerializedName("release_date")
+    @Expose
+    var release_date: String? = null
 ){
     fun toMovie() = Movie(this.id!!, this.poster_path!!)
 }

@@ -21,7 +21,7 @@ abstract class BaseFragment : Fragment() {
     protected fun hideProgress() = progressStatus(View.GONE)
 
     // TODO replace with injected interface
-    private fun progressStatus(viewStatus: Int) = with(activity) { if (this is BaseBindingFragmentActivity<*>) progress.visibility = viewStatus }
+    private fun progressStatus(viewStatus: Int) = with(activity) { if (this is BaseBindingFragmentActivity) progress.visibility = viewStatus }
 
     internal fun notify(@StringRes message: Int) = Snackbar.make(viewContainer, message, Snackbar.LENGTH_SHORT).show()
 

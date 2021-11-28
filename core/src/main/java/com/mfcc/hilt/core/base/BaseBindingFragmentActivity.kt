@@ -4,9 +4,10 @@ import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import com.mfcc.hilt.core.R
+import com.mfcc.hilt.core.databinding.ActivityContainerBinding
 import com.mfcc.hilt.core.extensions.inTransaction
 
-abstract class BaseBindingFragmentActivity<B : ViewDataBinding> : BaseBindingActivity<B>() {
+abstract class BaseBindingFragmentActivity : BaseBindingActivity<ActivityContainerBinding>() {
 
     override val layoutResource: Int
         get() = R.layout.activity_container

@@ -29,15 +29,16 @@ abstract class CoreModule {
         }
 
         @Provides
-        internal fun provideOkHttpClient(interceptor: HttpLoggingInterceptor): OkHttpClient =
-            OkHttpClient.Builder().addInterceptor(interceptor).build()
+        internal fun provideLoggingInterceptor(): HttpLoggingInterceptor = HttpLoggingInterceptor()
+            .apply {
+                HttpLoggingInterceptor.Level.BODY
+                HttpLoggingInterceptor.Level.HEADERS
+            }
+
 
         @Provides
-        internal fun provideLoggingInterceptor(): HttpLoggingInterceptor = HttpLoggingInterceptor()
-                .apply {
-                    HttpLoggingInterceptor.Level.BODY
-                    HttpLoggingInterceptor.Level.HEADERS
-                }
+        internal fun provideOkHttpClient(interceptor: HttpLoggingInterceptor): OkHttpClient =
+            OkHttpClient.Builder().addInterceptor(interceptor).build()
 
 
         @Provides
